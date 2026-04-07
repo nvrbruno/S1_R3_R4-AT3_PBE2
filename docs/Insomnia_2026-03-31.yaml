@@ -1,0 +1,279 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: aulaDemo02
+meta:
+  id: wrk_0b030c62198344a0ad840bdf3fc2641b
+  created: 1774963984728
+  modified: 1774963984728
+  description: ""
+collection:
+  - name: Produtos
+    meta:
+      id: fld_65e570de927c40beb1468c006e1fb2e4
+      created: 1774974072405
+      modified: 1774979917608
+      sortKey: -1774974072406
+      description: ""
+    children:
+      - url: localhost:8000/produtos
+        name: criarProduto
+        meta:
+          id: req_eaa9e8df14f8475a89b3aca948c1f5b9
+          created: 1774974123319
+          modified: 1774979301008
+          isPrivate: false
+          description: ""
+          sortKey: -1774974113604
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: nome
+              value: labubu justin
+            - name: valor
+              value: "00.00"
+              description: ""
+              disabled: false
+            - name: id
+              value: "1"
+              description: ""
+              disabled: false
+            - name: image
+              value: ""
+              description: ""
+              disabled: false
+              fileName: C:\Users\49196930870\Downloads\labubuJapao.png
+              type: file
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8000/produtos/1
+        name: editarProduto
+        meta:
+          id: req_1b556c3b7986413e9fb852548d86caef
+          created: 1774978734551
+          modified: 1774979474797
+          isPrivate: false
+          description: ""
+          sortKey: -1774969281715.5
+        method: PUT
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: nome
+              value: labubuvolei
+            - name: valor
+              value: "20.50"
+              description: ""
+              disabled: false
+            - name: id
+              value: "1"
+              description: ""
+              disabled: false
+            - name: image
+              value: ""
+              description: ""
+              disabled: false
+              fileName: C:\Users\49196930870\Downloads\labubuVolei.png
+              type: file
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8000/produtos/1
+        name: selecionarProduto
+        meta:
+          id: req_1200de785b49403e8bc85120c65531c3
+          created: 1774979187611
+          modified: 1774979643143
+          isPrivate: false
+          description: ""
+          sortKey: -1774974113704
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8000/produtos/2
+        name: deletarProduto
+        meta:
+          id: req_a5801af9852c45db8708a947aebd3558
+          created: 1774979377096
+          modified: 1774979383554
+          isPrivate: false
+          description: ""
+          sortKey: -1774969281615.5
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Categorais
+    meta:
+      id: fld_ed76f7a0c8034ceab581f5cf6553510a
+      created: 1774979828863
+      modified: 1774979914505
+      sortKey: -1774979829063
+      description: ""
+    children:
+      - url: localhost:8000/categorias
+        name: selecionarCategoria
+        meta:
+          id: req_f1ab38201cc847739efb3ea42ee03b2b
+          created: 1774964236992
+          modified: 1774979895777
+          isPrivate: false
+          description: ""
+          sortKey: -1774979882148
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8000/categorias
+        name: criarCategoria
+        meta:
+          id: req_fcd51550df704fbf8a51874879bb933b
+          created: 1774964449827
+          modified: 1774979882136
+          isPrivate: false
+          description: ""
+          sortKey: -1774979882098
+        method: POST
+        body:
+          mimeType: application/json
+          text: '{ "nome": "Camisas labubonicas", "descricao": "Camisas oversized
+            labubonicas" }'
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8000/categorias/2
+        name: deletarCategoria
+        meta:
+          id: req_2b0341647c0141959ee023bdd57e93a8
+          created: 1774965073668
+          modified: 1774979898417
+          isPrivate: false
+          description: ""
+          sortKey: -1774979882123
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8000/categorias/1
+        name: editarCategoria
+        meta:
+          id: req_688d0c6a3f2e4e539dbafa5a9159ea6a
+          created: 1774965089742
+          modified: 1774979889722
+          isPrivate: false
+          description: ""
+          sortKey: -1774979882198
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "nome": "Camisas tralaleronicas",
+              "descricao": "Camisas oversized labubonicas"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.4.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_beb179350e8cae9337e5323394d1ed203124d4ad
+    created: 1774963984742
+    modified: 1774963984742
+environments:
+  name: Base Environment
+  meta:
+    id: env_beb179350e8cae9337e5323394d1ed203124d4ad
+    created: 1774963984735
+    modified: 1774963984735
+    isPrivate: false
