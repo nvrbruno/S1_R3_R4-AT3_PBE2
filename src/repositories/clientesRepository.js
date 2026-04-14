@@ -1,122 +1,95 @@
-import { Clientes } from "../models/Clientes.js";
-import { Telefones } from "../models/Telefones.js";
-import { Enderecos } from "../models/Enderecos.js";
 import { connection } from "../configs/Database.js";
 
 const clienteRepository = {
-    criar: async (Clientes) => {
-        await connection;
+    criar: async (clientes, telefones, enderecos) => {
+        const conn = await connection.getConnection();
         try {
-            await connection.beginTransaction();
+            await conn.beginTransaction();
 
             const sqlClientes = 'INSERT INTO clientes (nome, cpf) VALUES (?, ?);';
-            const valuesClientes = [Clientes.nome, Clientes.cpf];
-            const [rowsClientes] = await connection.execute(sqlClientes, valuesClientes);
+            const valuesClientes = [clientes.nome, clientes.cpf];
+            const [rowsClientes] = await conn.execute(sqlClientes, valuesClientes);
 
-            const sqlTelefones = 'INSERT INTO telefones (telefone) VALUES (?);';
-            const valuesTelefones = [Telefones.telefone];
-            const [rowsTelefones] = await connection.execute(sqlTelefones, valuesTelefones);
+            const sqlTelefones = `INSERT INTO telefones (idCliente, telefone) VALUES (?, ?);`;
+            const valuesTelefones = [rowsClientes.insertId, telefones.telefone];
+            const [rowsTelefones] = await conn.execute(sqlTelefones, valuesTelefones);
 
-            const sqlEnderecos = 'INSERT INTO enderecos (uf, logradouro, cidade, bairro, numero, cep, complemento) VALUES (?, ?, ?, ?, ?, ?, ?);';
-            const valuesEnderecos = [Enderecos.uf, Enderecos.logradouro, Enderecos.cidade, Enderecos.bairro, Enderecos.numero, Enderecos.cep, Enderecos.complemento];
-            const [rowsEnderecos] = await connection.execute(sqlEnderecos, valuesEnderecos);
-
-            await connection.commit();
+            const sqlEnderecos = `INSERT INTO enderecos (idCliente, uf, logradouro, cidade, bairro, numero, cep, complemento) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
+            const valuesEnderecos = [rowsClientes.insertId, enderecos.uf, enderecos.logradouro, enderecos.cidade, enderecos.bairro, enderecos.numero, enderecos.cep, enderecos.complemento];
+            const [rowsEnderecos] = await conn.execute(sqlEnderecos, valuesEnderecos);
+            await conn.commit();
             return { rowsClientes, rowsTelefones, rowsEnderecos };
         } catch (error) {
-            await connection.rollback();
+            await conn.rollback();
             throw error;
+        } finally {
+            conn.release();
         }
     },
-    // editar: async (cliente) => {
-    //     try {
-    //         await connection.beginTransaction();
+    editar: async (clientes, telefones, enderecos) => {
+        const conn = await connection.getConnection();
+        try {
+            await conn.beginTransaction();
+            console.log(clientes.nome, clientes.cpf, clientes.idCliente)
+            console.log(telefones.telefone, telefones.idTelefone)
+            console.log(enderecos.uf, enderecos.logradouro, enderecos.cidade, enderecos.bairro, enderecos.numero, enderecos.cep, enderecos.complemento, enderecos.idEndereco)
+            const sqlClientes = 'UPDATE clientes SET nome = ?, cpf = ? WHERE idCliente = ?;';
+            const valuesClientes = [clientes.nome, clientes.cpf, clientes.idCliente];
+            const [rowsClientes] = await conn.execute(sqlClientes, valuesClientes);
 
-    //         const sqlClientes = 'UPDATE clientes SET nome = ?, cpf = ? idCliente = ?;';
-    //         const valuesClientes = [Clientes.nome, Clientes.cpf, Clientes.idCliente];
-    //         const [rowsClientes] = await connection.execute(sqlClientes, valuesClientes);
+            const sqlTelefones = 'UPDATE telefones SET telefone = ? WHERE idTelefone = ?;';
+            const valuesTelefones = [telefones.telefone, telefones.idTelefone];
+            const [rowsTelefones] = await conn.execute(sqlTelefones, valuesTelefones);
 
-    //         const sqlTelefones = 'UPDATE telefones SET telefone = ? WHERE idTelefone = ?;';
-    //         const valuesTelefones = [Telefones.telefone, Telefones.idTelefone];
-    //         const [rowsTelefones] = await connection.execute(sqlTelefones, valuesTelefones);
+            const sqlEnderecos = 'UPDATE enderecos SET uf = ?, logradouro = ?, cidade = ?, bairro = ?, numero = ?, cep = ?, complemento = ? WHERE idEndereco = ?;';
+            const valuesEnderecos = [enderecos.uf, enderecos.logradouro, enderecos.cidade, enderecos.bairro, enderecos.numero, enderecos.cep, enderecos.complemento, enderecos.idEndereco];
+            const [rowsEnderecos] = await conn.execute(sqlEnderecos, valuesEnderecos);
 
-    //         const sqlEnderecos = 'UPDATE enderecos SET uf = ?, logradouro = ?, cidade = ?, bairro = ?, numero = ?, cep = ?, complemento = ? WHERE idEndereco = ?;';
-    //         const valuesEnderecos = [Enderecos.uf, Enderecos.logradouro, Enderecos.cidade, Enderecos.bairro, Enderecos.numero, Enderecos.cep, Enderecos.complemento, Enderecos.idEndereco];
-    //         const [rowsEnderecos] = await connection.execute(sqlEnderecos, valuesEnderecos);
+            await conn.commit();
+            return { rowsClientes, rowsTelefones, rowsEnderecos };
+        } catch (error) {
+            await conn.rollback();
+            throw error;
+        } finally {
+            conn.release();
+        }
+    },
+    deletar: async (clientes, telefones, enderecos) => {
+        const conn = await connection.getConnection();
+        try {
+            await conn.beginTransaction();
 
-    //         await connection.commit();
-    //         return { rowsClientes, rowsTelefones, rowsEnderecos };
-    //     } catch (error) {
-    //         await connection.rollback();
-    //         throw error;
-    //     }
-    // },
-    // deletar: async (clientes) => {
-    //     try {
-    //         await connection.beginTransaction();
+            console.log(clientes.idCliente);
+            console.log(telefones.idTelefone);
+            console.log(enderecos.idEndereco);
 
-    //         const sqlClientes = 'DELETE from clientes WHERE idCliente = ?;';
-    //         const valuesClientes = [Clientes.nome, Clientes.cpf, Clientes.idCliente];
-    //         const [rowsClientes] = await connection.execute(sqlClientes, valuesClientes);
+            const sqlTelefones = 'DELETE FROM telefones WHERE idTelefone = ?;';
+            const valuesTelefones = [telefones.idTelefone];
+            const [rowsTelefones] = await conn.execute(sqlTelefones, valuesTelefones);
 
-    //         const sqlTelefones = 'DELETE from telefones WHERE idTelefone = ?;';
-    //         const valuesTelefones = [Telefones.telefone, Telefones.idTelefone];
-    //         const [rowsTelefones] = await connection.execute(sqlTelefones, valuesTelefones);
+            const sqlEnderecos = 'DELETE FROM enderecos WHERE idEndereco = ?;';
+            const valuesEnderecos = [enderecos.idEndereco];
+            const [rowsEnderecos] = await conn.execute(sqlEnderecos, valuesEnderecos);
 
-    //         const sqlEnderecos = 'DELETE from enderecos WHERE idEndereco = ?;';
-    //         const valuesEnderecos = [Enderecos.uf, Enderecos.logradouro, Enderecos.cidade, Enderecos.bairro, Enderecos.numero, Enderecos.cep, Enderecos.complemento, Enderecos.idEndereco];
-    //         const [rowsEnderecos] = await connection.execute(sqlEnderecos, valuesEnderecos);
+            const sqlClientes = 'DELETE FROM clientes WHERE idCliente = ?;';
+            const valuesClientes = [clientes.idCliente];
+            const [rowsClientes] = await conn.execute(sqlClientes, valuesClientes);
 
-    //         await connection.commit();
-    //         return { rowsClientes, rowsTelefones, rowsEnderecos };
-    //     } catch (error) {
-    //         await connection.rollback();
-    //         throw error;
-    //     }
-    // },
-    //     selecionarUM: async (clientes) => {
-    //     try {
-    //         await connection.beginTransaction();
+            await conn.commit();
+            return { rowsClientes, rowsTelefones, rowsEnderecos };
 
-    //         const sqlClientes = 'SELECT * from clientes WHERE idCliente = ?;';
-    //         const valuesClientes = [Clientes.idCliente];
-    //         const [rowsClientes] = await connection.execute(sqlClientes, valuesClientes);
-
-    //         const sqlTelefones = 'SELECT * from telefones WHERE idTelefone = ?;';
-    //         const valuesTelefones = [Telefones.idTelefone];
-    //         const [rowsTelefones] = await connection.execute(sqlTelefones, valuesTelefones);
-
-    //         const sqlEnderecos = 'SELECT * from enderecos WHERE idEndereco = ?;';
-    //         const valuesEnderecos = [Enderecos.idEndereco];
-    //         const [rowsEnderecos] = await connection.execute(sqlEnderecos, valuesEnderecos);
-
-    //         await connection.commit();
-    //         return { rowsClientes, rowsTelefones, rowsEnderecos };
-    //     } catch (error) {
-    //         await connection.rollback();
-    //         throw error;
-    //     }
-    // },
-    //     selecionar: async (clientes) => {
-    //     try {
-    //         await connection.beginTransaction();
-
-    //         const sqlClientes = 'SELECT * from clientes';
-    //         const [rowsClientes] = await connection.execute(sqlClientes, valuesClientes);
-
-    //         const sqlTelefones = 'SELECT * from telefones;';
-    //         const [rowsTelefones] = await connection.execute(sqlTelefones, valuesTelefones);
-
-    //         const sqlEnderecos = 'SELECT * from enderecos;';
-    //         const [rowsEnderecos] = await connection.execute(sqlEnderecos, valuesEnderecos);
-
-    //         await connection.commit();
-    //         return { rowsClientes, rowsTelefones, rowsEnderecos };
-    //     } catch (error) {
-    //         await connection.rollback();
-    //         throw error;
-    //     }
-    // },
+        } catch (error) {
+            await conn.rollback();
+            throw error;
+        } finally {
+            conn.release();
+        }
+    },
+        selecionarTodos: async () => {
+        const sql = 'SELECT * FROM clientes AS c INNER JOIN enderecos AS e ON c.idCliente = e.idCliente INNER JOIN telefones AS t ON c.idCliente = t.idCliente;'
+        const [rows] = await connection.execute(sql)
+        return rows;
+    },
 };
 
 export default clienteRepository

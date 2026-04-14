@@ -17,6 +17,13 @@ export class Telefones {
         this.#telefone = String(value);
     }
 
+    get idCliente() {
+        return this.#idCliente;
+    }
+
+    get idTelefone() {
+        return this.#idTelefone;
+    }
 
     #validarTelefone(value) {
         if (!value || value.trim().length < 11 || value.trim().length > 12) {
@@ -25,10 +32,10 @@ export class Telefones {
     }
 
     static criar(dados) {
-        return new Telefones(dados.telefone);
+        return new Telefones(dados.telefone, null, null);
     }
 
-    static alterar(dados, id) {
-        return new Telefones(dados.telefone, id);
+    static editar(dados, id) {
+        return new Telefones(dados.telefone, null, id);
     }
 }
