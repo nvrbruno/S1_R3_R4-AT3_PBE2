@@ -7,22 +7,23 @@ import pedidoRepository from "../repositories/pedidoRepository.js";
 const pedidoController = {
     criar: async (req, res) => {
         try {
+
             let { idCliente, itens } = req.body
 
             const itensPedido = itens.map(item =>
-                itensPedido.criar({
+                ItensPedido.criar({
                     idProduto: item.idProduto,
                     quantidade: item.quantidade,
                     valorItem: item.valorItem
                 })
             );
-
-            const subTotal = ItensPedido.calculadoraSubTotalItens(itensPedido)
-            const pedido = Pedido.criar({idCliente, subTotal, status:statusPed.ABERTO})
-
-            const result = await pedidoRepository.criar(pedido,itensPedido);
-            return res.status(200).json(result);
             
+            const subTotal = ItensPedido.calculadoraSubTotalItens(itensPedido)
+            const pedido = Pedido.criar({ idCliente, subTotal, status: statusPed.ABERTO })
+            console.log(subTotal)
+            const result = await pedidoRepository.criar(pedido, itensPedido);
+            return res.status(200).json(result);
+
         } catch (error) {
             console.log(error);
             res.status(500).json({

@@ -66,6 +66,7 @@ export class Pedido {
 
     //Design pattern
     static criar(dados) {
+        console.log("KKKK", new Pedido(dados.idCliente, dados.subTotal, dados.status, null))
         return new Pedido(dados.idCliente, dados.subTotal, dados.status, null)
     }
     static editar(dados, id) {

@@ -65,7 +65,7 @@ export class ItensPedido {
         }
     }
     #validarIdPedido(value) {
-        if (!value && value <= 0) {
+        if (value && value <= 0) {
             throw new Error("Verifique o ID Pedido informado")
         }
     }
@@ -88,6 +88,7 @@ export class ItensPedido {
 
     //Design pattern
     static criar(dados) {
+        console.log(dados.idProduto, dados.quantidade, dados.valorItem, null, null)
         return new ItensPedido(dados.idProduto, dados.quantidade, dados.valorItem, null, null)
     }
     static editar(dados, id) {

@@ -3,6 +3,8 @@ import { connection } from "../configs/Database.js";
 const pedidoRepository = {
  criar: async (pedido, itens) => {
         const conn = await connection.getConnection();
+        console.log(pedido.idCliente, pedido.subTotal, pedido.status);
+        
         try {
             await conn.beginTransaction();
 
