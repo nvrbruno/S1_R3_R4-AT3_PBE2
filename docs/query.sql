@@ -54,3 +54,31 @@ INNER JOIN telefones AS t
 SELECT * from clientes;
 SELECT * from telefones;
 SELECT * from enderecos;
+
+CREATE TABLE IF NOT EXISTS pedidos (
+    idPedidos INT AUTO_INCREMENT PRIMARY KEY,
+    idCliente INT NOT NULL,
+    subTotal DECIMAL(18,2) NOT NULL,
+    status ENUM('Aberto', 'Finalizado', 'Pendente') NOT NULL,
+    dataCad TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_clientes_pedidos
+    FOREIGN KEY (idCliente)
+    REFERENCES clientes (idCliente)
+);
+
+CREATE TABLE IF NOT EXISTS itens_pedidos (
+    idItensPedidos INT AUTO_INCREMENT PRIMARY KEY,
+    idPedido INT NOT NULL,
+    idProduto INT NOT NULL,
+    quantidade DECIMAL(18,2) NOT NULL,
+    valorItem DECIMAL(18,2) NOT NULL,
+
+    CONSTRAINT fk_itens_pedidos_pedidos
+    FOREIGN KEY (idPedido)
+    REFERENCES pedidos (idPedidos),
+
+    CONSTRAINT fk_itens_pedidos_produtos
+    FOREIGN KEY (idProduto)
+    REFERENCES produtos (idProduto)
+);
