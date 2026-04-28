@@ -2,7 +2,7 @@
   "name": "s1_r3_r4-at3_pbe2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "directories": {
     "doc": "docs"
   },
